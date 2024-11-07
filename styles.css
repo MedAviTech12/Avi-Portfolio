@@ -1,0 +1,176 @@
+/* Basic Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Body Styles */
+  body.light-mode {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #e0f7fa;
+    background-image: url('https://www.example.com/medical-background.jpg'); /* Replace with suitable URL */
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+  }
+  
+  body.dark-mode {
+    color: #f0f0f0;
+    background-color: #1e1e2f;
+    background-image: url('https://www.example.com/medical-background-dark.jpg'); /* Replace with dark-themed URL */
+  }
+  
+  /* Container */
+  .container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+  }
+  
+  /* Header */
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #005a9c;
+    position: relative;
+  }
+  
+  header h1 {
+    font-size: 30px;
+    color: #0078d4;
+  }
+  
+  #theme-toggle {
+    position: fixed; /* Fixes the button position on the screen */
+    top: 20px; /* 20px from the top of the screen */
+    right: 20px; /* 20px from the right edge */
+    padding: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    transition: color 0.3s;
+    z-index: 10; /* Ensures the button stays above other elements */
+  }
+  
+  body.light-mode #theme-toggle {
+    color: #333;
+  }
+  
+  body.dark-mode #theme-toggle {
+    color: #f0f0f0;
+  }
+  
+   
+  /* Navigation */
+  nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  nav button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #0078d4;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  nav button:hover {
+    background-color: #005a9c;
+    transform: scale(1.05);
+  }
+  
+  /* Main Content */
+  main {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease;
+  }
+  
+  body.dark-mode main {
+    background: rgba(30, 30, 47, 0.9);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Section Styling with Animation */
+  main section {
+    display: none;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    transition: opacity 0.5s ease, transform 0.5s;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  
+  body.dark-mode main section {
+    background: #333;
+  }
+  
+  main section.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  main section h2 {
+    color: #0078d4;
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  
+  main section p, main section pre {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  main section pre {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 6px;
+    overflow-x: auto;
+    color: #333;
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    color: #0078d4;
+    margin-top: 30px;
+    font-size: 14px;
+  }
+  
+  body.dark-mode footer {
+    color: #e0f7fa;
+  }
+  #theme-icon{
+    padding: 20px;
+  }
+  section img {
+    max-width: 100%;   /* Ensures the image scales within its container */
+    height: auto;      /* Maintains the image’s aspect ratio */
+    display: block;    /* Removes any extra space below the image */
+    margin: 10px auto; /* Centers the image within the section */
+    border-radius: 8px; /* Optional: adds rounded corners for a softer look */
+  }
+  #references p {
+    color:rgb(93, 93, 243);
+    text-decoration: underline;
+  }

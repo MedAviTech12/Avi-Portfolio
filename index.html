@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EEG Wave Detection and Energy Distribution Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>EEG Wave Detection and Energy Distribution Analysis</h1>
+      <p>Using MATLAB Power Spectral Density</p>
+      <button id="theme-toggle" onclick="toggleDarkMode()">
+        <span id="theme-icon">🌞</span> Toggle Theme
+      </button>
+    </header>
+
+    <nav>
+      <button onclick="showSection('introduction')">Introduction</button>
+      <button onclick="showSection('methodology')">Methodology</button>
+      <button onclick="showSection('code')">Code Explanation</button>
+      <button onclick="showSection('results')">Results</button>
+      <button onclick="showSection('conclusion')">Conclusion</button>
+      <button onclick="showSection('references')">References</button>
+    </nav>
+
+    <main>
+      <section id="introduction">
+        <h2>Introduction</h2>
+        <img src="eeg.jpeg" alt="no image">
+        <p>
+            This project focuses on detecting and analyzing the distinct types of EEG brain waves—namely delta, theta, alpha, beta, and gamma—by examining their energy distribution using MATLAB. EEG waves represent various states of brain activity, with each wave type associated with specific mental and physical states, such as deep sleep, relaxation, or heightened focus. By using MATLAB's Power Spectral Density (PSD) functions, the project provides a quantitative assessment of the energy within each wave band, offering insights into brain function and potential applications in fields like cognitive science, neurology, and mental health. This analysis can also serve as a foundation for developing brain-computer interfaces or monitoring cognitive states in real-time</p>
+      </section>
+
+      <section id="methodology">
+        <img src="1.png" alt="no image">
+        <h2>Methodology</h2>
+        <p>Detailed explanation of the methodology used, including data preprocessing, MATLAB functions, and PSD calculation.</p>
+      </section>
+
+      <section id="code">
+        <h2>Code Explanation</h2>
+        <pre><code>
+            % Define the path to the EEG data file
+            eeg_data_path = 'C:\Users\bibek\Downloads\archive\features_raw.csv';  % Replace with your actual file name
+            
+            % Load EEG data from the CSV file
+            eeg_data = readtable(eeg_data_path);  % Reads data from a CSV file into a table
+            
+            % Assuming the EEG signal is in the first column of the table, adjust as needed
+            eeg_signal = eeg_data{:, 1};  % Extract the first column as the EEG signal
+            
+            % Define the sampling frequency (Hz)
+            fs = 256;  % Replace with your actual sampling frequency if different
+            
+            % Parameters for EEG frequency bands
+            band_limits = struct('delta', [0.5, 4], ...
+                                 'theta', [4, 8], ...
+                                 'alpha', [8, 13], ...
+                                 'beta', [13, 30], ...
+                                 'gamma', [30, 100]);
+            
+            % Preprocess the data (optional filtering)
+            % Design a bandpass filter to remove noise outside the frequency range of interest (0.5 - 100 Hz)
+            [b, a] = butter(4, [0.5, 100] / (fs / 2), 'bandpass');
+            filtered_signal = filtfilt(b, a, eeg_signal);
+            
+            % Calculate Power Spectral Density using Welch's method
+            [pxx, f] = pwelch(filtered_signal, [], [], [], fs);
+            
+            % Initialize energy distribution structure
+            energy_distribution = struct();
+            
+            % Calculate energy for each band
+            for band = fieldnames(band_limits)'
+                band_name = band{1};
+                limits = band_limits.(band_name);
+                
+                % Find indices of the frequency range for the given band
+                freq_indices = find(f >= limits(1) & f <= limits(2));
+                
+                % Calculate energy for the band (integrate the PSD over the band)
+                energy = trapz(f(freq_indices), pxx(freq_indices)); % Area under the PSD curve
+                energy_distribution.(band_name) = energy;
+            end
+            
+            % Display energy distribution for each EEG band
+            disp('Energy Distribution of EEG Bands:');
+            disp(energy_distribution);
+            
+            % Plot the Power Spectral Density
+            figure;
+            plot(f, 10*log10(pxx)); % Convert to dB
+            xlabel('Frequency (Hz)');
+            ylabel('Power/Frequency (dB/Hz)');
+            title('Power Spectral Density of EEG Signal');
+            grid on;
+            
+            % Highlight EEG bands on the plot
+            hold on;
+            for band = fieldnames(band_limits)'
+                xline(band_limits.(band{1})(1), '--', band{1}, 'Color', 'r');
+                xline(band_limits.(band{1})(2), '--', 'Color', 'r');
+            end
+            hold off;
+        </code></pre>
+      </section>
+
+      <section id="results">
+        <h2>Results</h2>
+        <img src="12.jpg" alt="no image">
+        <img src="13.jpg" alt="no image">
+        <p>Graphs and findings for each waveform. Visuals showing the energy distribution across EEG wave bands.</p>
+        <!-- Insert graphs/images as <img src="path/to/graph.png" alt="Graph description"> -->
+      </section>
+
+      <section id="conclusion">
+        <h2>Conclusion</h2>
+        <p>In the conclusion of this EEG wave detection and energy distribution analysis project, we summarize the key findings, implications, limitations, and suggest potential improvements:<br>
+
+            1. Findings: The project successfully detected various EEG wave types—delta, theta, alpha, beta, and gamma—and quantified their energy distributions. This provided insights into brain wave patterns, offering valuable information on brain activity under specific conditions (e.g., relaxation, focus, sleep).<br>
+            
+            2. Implications: These findings have practical applications in neurology, psychology, and cognitive science. For instance, understanding the energy distribution across different EEG bands can help identify cognitive states, monitor sleep quality, detect neurological disorders, and even study responses to external stimuli.<br>
+            
+            3. Limitations: One limitation lies in potential signal noise that can interfere with wave detection, as well as limited sample sizes that may affect the generalizability of results. Moreover, the approach relies on MATLAB's Power Spectral Density function, which may have its own constraints regarding resolution and accuracy.<br>
+            
+            4. Potential Improvements: Future work could improve signal filtering techniques for better noise reduction, explore real-time EEG processing, and apply advanced algorithms like machine learning to classify EEG patterns more accurately. Additionally, expanding the dataset and integrating other software or tools could enhance robustness and applicability. <br>
+            
+            Overall, this study establishes a foundational approach to EEG wave analysis, highlighting areas for refinement and future research..</p>
+      </section>
+
+      <section id="references">
+        <h2>References</h2>
+        <p>MATLAB Signal Processing Toolbox Documentation
+            MATLAB Signal Processing Toolbox<br>
+            
+            Power Spectral Density in MATLAB
+            Power Spectral Density in MATLAB<br>
+            
+            EEG Signal Processing and Analysis (Coursera)
+            EEG Signal Processing and Analysis by Coursera<br>
+            
+            MATLAB and Simulink Training
+            MATLAB Training<br>
+            
+            MATLAB Central File Exchange
+            MATLAB Central File Exchange<br>
+            
+            Signal Processing Stack Exchange
+            Signal Processing Stack Exchange<br>
+            
+            IEEE Xplore: Power Spectral Density in EEG
+            IEEE Xplore: Power Spectral Density in EEG<br>
+            
+            Survey on EEG Signal Processing (ResearchGate)
+            Survey on EEG Signal Processing (ResearchGate)<br>
+            
+            "EEG Signal Processing" by Saeid Sanei and J.A. Chambers
+            EEG Signal Processing on Elsevier<br>
+            
+            IEEE Xplore: Frequency Domain EEG Analysis
+            Frequency Domain EEG Analysis Paper (IEEE Xplore)</p><br>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
